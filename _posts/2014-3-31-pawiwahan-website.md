@@ -3,7 +3,7 @@ layout: post
 title: Website Pawiwahan (Behind The Scene)
 tags:
 - general
-- html/javascript/css
+- html
 ---
 
 Genap setahun [website pawiwahan](http://ktutnik.github.io/pwh) online di sub directory blog ini.
