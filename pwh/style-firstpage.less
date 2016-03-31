@@ -1,0 +1,140 @@
+﻿@import "style-definition.less";
+
+.first-page{
+    background-image: url(big-bg-blur.JPG);
+    background-size: 700px auto;
+    background-position-y: center;
+    padding: 20px 0;
+
+    @media(max-width: 300px){
+        background-size: 800px auto;
+    }
+
+    h1, h3 {
+        margin: 0;
+        text-align:center;
+    }
+
+    h1 {
+        font-family: 'Samarkan', cursive;
+        font-size: 70px;
+
+        @media (max-width: 444px) {
+            & {
+                font-size: 50px;
+            }
+        }
+    }
+}
+
+.bride {
+    padding: 20px 0;
+    margin: 0 30px;
+
+    @media(max-width: @mobile-menu-width) {
+        padding: 30px 0;
+    }
+
+    .dengan {
+        text-align: center;
+        padding: 0 50px;
+    }
+
+    .photo-box {
+        vertical-align: middle;
+        display: inline-block;
+        max-width: 550px;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        border-spacing: 15px;
+        margin-left: auto;
+        margin-right: auto;
+
+        & > div {
+            vertical-align: middle;
+            display: table-cell;
+        }
+        /*foto pengantin*/
+        & > .photo {
+            height: 100px;
+            width: 100px;
+            -moz-border-radius: 100%;
+            -webkit-border-radius: 100%;
+            border-radius: 100%;
+            background-position: center;
+            background-size: 100px 100px;
+            background-repeat: no-repeat;
+        }
+
+        & > div.description {
+            margin-left: 20px;
+            /*nama pengantin*/
+            h2 {
+                font-family: 'Arizonia', Helvetica, sans-serif;
+                font-size: 40px;
+                letter-spacing: 2px;
+                font-weight: normal;
+                margin: 0;
+                padding: 8px 0;
+                border-bottom: @c-border-thin;
+
+                @media(max-width: 505px) {
+                    & {
+                        font-size: 30px;
+                    }
+                }
+
+                @media (max-width: 363px) {
+                    & {
+                        font-size: 20px;
+                    }
+                }
+                @media(max-width: 282px){
+                    &{
+                        font-size: 30px;
+                    }
+                }
+            }
+
+            span {
+                display: block;
+                padding: 4px 0;
+            }
+        }
+
+        @media(max-width: 633px) {
+            & {
+                display: block;
+                text-align: center;
+            }
+
+            & > div {
+                display: block;
+                margin: auto;
+            }
+
+            & div.description {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 427px) {
+            & {
+                padding: 0;
+            }
+        }
+    }
+}
+
+
+.first-page .mantram {
+    text-align: center;
+    margin-top: 30px;
+
+    .waktu {
+        font-weight: bold;
+        font-size: 20px;
+        padding: 20px 0;
+    }
+}
