@@ -58,7 +58,7 @@ Konversi non Task ke Task
 Ok, sekarang kita sudah tau kehebatan library Tasks, bagaimana kalau kita mempunyai 
 fungsi asynchronous dari third party? gampang!
 
-misalnnya kita memakai library REST Client Retrofit dengan return type [Call<T>](https://goo.gl/gGvVFD) 
+misalnnya kita memakai library REST Client Retrofit dengan return type [Call](https://goo.gl/gGvVFD) 
 
 ```java
 Call<String> getUserNameAsync();
@@ -103,7 +103,8 @@ dijalankan di main tread. Untuk melakukan hal ini kita bisa memakai fungsi `call
 proses eksekusi ke thread pool
 
 ```java
-Tasks.call(Executors.newCachedThreadPool(), new Callable<Void>() {
+Tasks.call(Executors.newCachedThreadPool(), 
+    new Callable<Void>() {
     @Override
     public Void call() throws Exception {
         String url = Tasks.await(uploadImage(/*bitmap*/));
