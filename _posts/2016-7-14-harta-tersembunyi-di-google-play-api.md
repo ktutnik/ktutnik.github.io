@@ -31,12 +31,13 @@ Task<String> getUserNameAsync();
 Kalau tanpa fungsi await maka kita harus menambahkan callback saat method selesai di eksekusi
 
 ```java
-getUserNameAsync().addOnSuccessListener(new OnSuccessListener<String>(){
-    @Override
-    public void onSuccess(String result){
-        //lakukan operasi selanjutnya
-        Log.d(TAG, "Continue other tasks");
-    }
+getUserNameAsync()
+    .addOnSuccessListener(new OnSuccessListener<String>(){
+        @Override
+        public void onSuccess(String result){
+            //lakukan operasi selanjutnya
+            Log.d(TAG, "Continue other tasks");
+        }
 });
 ```
 
@@ -66,7 +67,8 @@ Call<String> getUserNameAsync();
 Untuk mengubahnya menjadi task kita lakukan dengan `TaskCompletionSource<TResult>`
 
 ```java
-TaskCompletionSource<String> completionSource = new TaskCompletionSource<>();
+TaskCompletionSource<String> completionSource = 
+    new TaskCompletionSource<>();
 getUserNameAsync().enqueue(new Callback<String>(){
     @Override
     public void onResponse(Response<String> response){
