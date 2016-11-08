@@ -1,0 +1,13 @@
+---
+layout: post
+title: Website Pawiwahan (Behind The Scene)
+tags:
+- android
+- java
+---
+
+Android databinding belajar banyak dari kegagalan databinding di Flex dan WPF, meskipun tidak sebagus langkah yang diambil Angular 2, tapi databinding di android terasa lebih superior.
+
+Instance View Model VS Code Behind VS Markup Model
+---------------------------------------------------
+
