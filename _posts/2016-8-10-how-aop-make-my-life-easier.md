@@ -143,7 +143,16 @@ public class CoolCacheInterceptor : IInterceptor
 }
 ```
 
-The RocketScienceController then get a little modification, with Constructor Injection.
+I make the example of `CreateId` as simple as possible, so you will understand the 
+idea of the cache ID is to create a unique ID based on method name and its parameters.
+This implementation only allowed for primitive type parameters, but for custom 
+class will need to override the `ToString()` method to get a unique id. I have 
+a plan to make another blog post about this cache technique so it can be use 
+to crate a unique id for a method that using custom class without having to 
+do some change on the class itself.
+
+Back to our RocketScienceController we need to make a little modification, 
+with Constructor Injection.
 
 ```csharp
 public class RocketScienceController : Controller 
@@ -171,9 +180,17 @@ public class RocketScienceController : Controller
 }
 ```
 
+
 See the difference with previous code? yes its call to `db.GetUserDetail()` 
-seems like it doesn't use cache at all, but it does! Here is how the 
-interception registered.
+seems like it doesn't use cache at all, but it does! 
+
+What was happened behind the scene? Castle Windsor creates an object proxy of the 
+`IDataContext` interface. So before the actual `GetUserDetail()` implementation 
+called, Castle Windsor will first call the interceptor. The actual method is called when
+the `invocation.Proceed()` method is called. So with the process, you can specify
+wether your code will be called before or after the actual code executed.
+
+To complete the setup, here is how the interception registered.
 
 ```csharp
 container.Register(           
@@ -185,5 +202,6 @@ container.Register(
 
 Thats it! 
 
-With AOP all codding style remain the same, thats make all team happy,
+Like you see with AOP all codding style remain the same without need to 
+understand about caching and all its setups, thats really make all team happy,
 with a bonus in performance which make my Boss happy! :)
