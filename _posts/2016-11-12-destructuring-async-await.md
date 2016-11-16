@@ -56,7 +56,7 @@ Lets review the code with ES6/ES7 Promise and use TypeScript async/await. All th
 function getUserLastActivityAsync(userId){
     return new Promise((resolve, reject) => {
         getUserLastActivity(userId, function(lastActivity, er){
-        if(!er)
+        if(er)
             reject(er);
         else
             resolve(lastActivity);
