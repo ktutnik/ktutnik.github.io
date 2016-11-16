@@ -58,7 +58,7 @@ are many ways, but the path will be difficult.
 GLOBAL CACHING
 -------------
 I found than the easiest way to solve the problem is by adding global caching 
-on each method call. Lets asume that i have created a Global Cache provider
+on each method call. Lets assume that i have created a Global Cache provider
 that use Asp.Net Cache Provider, with timeout set to 5 seconds. Why 5 seconds?
 its depends on how often the data will be changed, in our apps the data change 
 is quite fast, so I set the cache timeout equals with how fast my server 
@@ -102,7 +102,7 @@ From performance perspective, the page will be run efficiently, because
 `db.GetUserDetail()` only called once, the next call (on the same request)
 will be provided from the cache. Neat! but from programmer perspective 
 it introduce more problem. Imagine if you have 5 method calls in one action
-it will make the overal code hard to read.
+it will make the overall code hard to read.
 
 ENTER THE AOP
 -------------
