@@ -5,7 +5,7 @@ tags:
 - KambojaJS
 ---
 
-Salah satu tantangan yang saya alami dalam membuat KambojaJS adalah membuat sebuah framework yang fleksibel, mempertahankan logika yang sederhana dan tetap perpegangan pada prinsip Open/Close principal.
+Salah satu tantangan yang saya alami dalam membuat [KambojaJS](http://kambojajs.com) adalah membuat sebuah framework yang fleksibel, mempertahankan logika yang sederhana dan tetap perpegangan pada prinsip Open/Close principal.
 
 Contohnya dalam proses meng-generate controller menjadi route (URL) yang dilakukan oleh modul yang saya namakan Route Generator. Route generator mempunya spesifikasi sbb:
 
