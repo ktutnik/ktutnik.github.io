@@ -5,7 +5,7 @@ tags:
 - KambojaJS
 ---
 
-Salah satu tantangan yang saya alami dalam membuat [KambojaJS](http://kambojajs.com) adalah membuat sebuah framework yang fleksibel, mempertahankan logika yang sederhana dan tetap perpegangan pada prinsip Open/Close principal.
+Salah satu tantangan yang saya alami dalam membuat [KambojaJS](http://kambojajs.com) adalah membuat sebuah framework yang fleksibel, mempertahankan logika yang sederhana dan tetap perpegangan pada prinsip Open/Close principle.
 
 Contohnya dalam proses meng-generate controller menjadi route (URL) yang dilakukan oleh modul yang saya namakan Route Generator. Route generator mempunya spesifikasi sbb:
 
@@ -168,9 +168,9 @@ console.log(generator.generate({ controller: "user", action: "list", decorator: 
 //return GET /hello/world
 ```
 
-## Open/Close principal
+## Open/Close principle
 
-Dari implementasi di atas kita sudah menerapkan prinsip Open/Close principal. *open for extension close for modification*. Bagaimana nantinya kalau kita ingin membuat strategy generator yang lain? jawabannya adalah dengan membuat strategy baru dan mendaftarkannya di main generator, bukan memodifikasi kode yang sudah ada.
+Dari implementasi di atas kita sudah menerapkan prinsip Open/Close principle. *open for extension close for modification*. Bagaimana nantinya kalau kita ingin membuat strategy generator yang lain? jawabannya adalah dengan membuat strategy baru dan mendaftarkannya di main generator, bukan memodifikasi kode yang sudah ada.
 
 ## Akhir Kata
 
