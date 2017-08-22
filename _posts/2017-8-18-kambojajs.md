@@ -11,16 +11,14 @@ cSpell:disable
 
 Saya adalah fans berat dari framework [Express](https://expressjs.com/), API nya yang minimalis dan sifatnya yang unopinionated sangat memberikan kebebasan dalam implementasi kode yang kita buat dan waktu pembelajaran (learning curve) yang cukup singkat untuk memahamimya. Menurut saya hanya ada satu kesalahan yang dibuat saat dibuatnya Express saat itu karena Express dilahirkan terlalu dini, saat engine V8 belum mendukung tools modern seperti `async/await`, pemakaian `class` dan support dari sisi bahasa pemrograman untuk mendukung `decorator`, sehingga dibalik semua kehebatan dan success story yang telah dibuat, Express menjadi framework yang kuno dan kurang mendukung development environment modern.
 
-Sebelumnya saya sangat aware dengan framework lain yang lebih modern seperti [Koa](http://koajs.com/), yang memang di lahirkan untuk menggantikan Express, Koa di desain sepenunya untuk mendukung `async/await` out of the box. Opini subjektif saya karena kurangannya dukungan kebelakang secara official terhadap middleware Express membuat Koa menjadi cukup sulit untuk mengungguli kesuksesan Express karena Express sudah terlanjur mempunyai ratusan bahkan ribuan middleware yang sudah terbukti hebat.
-
-Masalah lain yang sering saya temui di Express adalah sulitnya melakukan unit testing, ini juga berlaku untuk Koa dan semua Sinatra-style framework. Salah satu keunggulan dari framework MVC dibandingkan Sinatra style framework adalah `Controller` di MVC adalah class yang berdiri sendiri yang bisa di unit test dengan mudah, yang kalau di perlakukan dengan benar bisa membuat unit testing bebas dari mock/stub, bahkan bisa membuat unit testing yang terbebas dari koneksi IO (database, file konfigurasi dsb). Hal ini membuat project yang mempunyai ribuan unit testing akan tetap bisa menjalankan unit testing nya dengan stabil dan waktu yang cukup singkat.
+Sebelumnya saya sangat aware dengan framework lain yang lebih modern seperti [Koa](http://koajs.com/), yang memang di lahirkan untuk menggantikan Express, Koa di desain sepenunya untuk mendukung `async/await` secara out of the box. Tapi saya mempunyai opini subjektif tersendiri tentang Sinatra style framework (Express, Koa) dibandingkan MVC style framework, dimana `Controller` di MVC adalah class yang berdiri sendiri yang bisa di unit test secara terpisah, yang kalau di perlakukan dengan benar bisa membuat unit testing bebas dari mock/stub, bahkan bisa membuat unit testing yang terbebas dari koneksi IO (database, file statis, koneksi network dsb). Hal ini membuat project yang mempunyai ribuan unit testing akan tetap stabil dan mempunyai eksekusi waktu yang singkat. Anda bisa melihat link [StackOverflow berikut untuk mengetahui apa yang di maksud dengan unit testing yang tidak stabil dan mempunyai waktu eksekusi lama](https://stackoverflow.com/questions/368622/how-to-deal-with-long-running-unit-tests).
 
 ## KambojaJS
-[KambojaJS](http://kambojajs.com) lahir dari masalah-masalah tersebut diatas, tujuannya untuk memberikan "pakaian" yang modern untuk lingkungan terbaru dari JavaScript/NodeJS untuk mendukung syntax yang modern lebih simpel dan trendy. 
+[KambojaJS](http://kambojajs.com) lahir dari masalah-masalah tersebut diatas, tujuannya untuk memberikan "pakaian" yang modern untuk lingkungan terbaru dari JavaScript/NodeJS untuk mendukung syntax yang modern lebih simpel dan elegan. 
 
-Untuk anda yang belum pernah mendengar apa itu KambojaJS, KambojaJS adalah MVC framework untuk server side NodeJS. KambojaJS memakai Express untuk core functionalities nya, API application nya dibikin mirip seperti Express untuk mempersingkat learning curve untuk programmer yang sudah terbiasa memakai Express. KambojaJS memberikan sentuhan modern dengan mendukung tools programming modern seperti `async/await`, `decorator` dsb.
+Untuk anda yang belum pernah mendengar apa itu KambojaJS, KambojaJS adalah MVC framework untuk server side NodeJS. KambojaJS memakai Express untuk core functionalities nya, API application nya dibikin mirip seperti Express untuk mempersingkat learning curve untuk programmer yang sudah terbiasa memakai Express.
 
-Tulisan ini bertujuan untuk menunjukkan masalah-masalah yang saya hadapi saat memakai Express, beberapa framework lain yang sengaja saya tidak sebutkan dan bagaimana saya menuangkan pemecahan masalah tersebut di KambojaJS.
+Tulisan ini bersifat subjective dari kaca mata saya pribadi, tujuannya untuk menunjukkan masalah-masalah yang saya hadapi saat memakai Express dan beberapa framework lain yang sengaja saya tidak sebutkan dan bagaimana saya menuangkan pemecahan masalah tersebut di KambojaJS.
 
 ## Route yang di Generate Otomatis
 Kalau anda suka melakukan meta programming, anda mungkin akan merasakan keterbatasan fasilitas RTTI (Run Time Type Information) di JavaScript. Hal ini lah yang membuat hampir semua MVC framework yang ada di NodeJS tidak bisa meng-generate route dari formasi controller dan action, tapi diperlukan konfigurasi tambahan untuk menghubungkan antara route dan controller. KambojaJS bisa melakuakan hal tersebut dengan mudah dan tanpa melakukan konfigurasi tambahan, contohnya seperti potongan kode berikut:
@@ -79,12 +77,15 @@ export class RequestTime extends Middleware {
 }
 ```
 
+
+> Sebagian programmer mungkin lebih suka dengan callback-style middlewarenya express karena simple dan tidak perlu membuat class. Sebenarnya memakai class mempunyai keunggulan untuk skala yang lebih besar seperti bisa dipakai untuk [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection). Untuk kedepannya KambojaJS [akan segera mendukung](https://github.com/kambojajs/kamboja/issues/115) callback-style middleware dan tetap mendukung `async/await` secara out of the box.
+
 Dari kode di atas bisa dilihat fungsi `next.proceed()` akan mengeksekusi controler dari request yang bersangkutan, sama halnya dengan fungsi `next` di middlewarenya express. Bedanya dengan KambojaJS kita mempunyai kontrol penuh terhadap eksekusi controller, kita bisa tau kapan eksekusi di mulai dan kapan eksekusi selesai. Sehingga untuk melakukan hal-hal sederhana seperti melakukan cache request atau melakukan penangkapan error secara global kemudian memberikan response beruba JSON sangat mudah dilakukan seperti contoh berikut:
 
 ```typescript
 import { Middleware, Core, json } from "kamboja"
 
-export class RequestTime extends Middleware {
+export class ErrorHandler extends Middleware {
     async execute(context, next: Core.Invocation) {
         try {
             return await next.proceed()
@@ -96,7 +97,26 @@ export class RequestTime extends Middleware {
 }
 ```
 
-> Sebagian programmer mungkin lebih suka dengan callback-style middlewarenya express karena simple dan tidak perlu membuat class. Sebenarnya memakai class mempunyai keunggulan untuk skala yang lebih besar seperti bisa dipakai untuk [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection). Untuk kedepannya KambojaJS [akan segera mendukung](https://github.com/kambojajs/kamboja/issues/115) callback-style middleware dan tetap mendukung `async/await` secara out of the box.
+Kode di atas sangat jelas, kita melakukan try catch untuk semua eksekusi controller yang bermasalah. Jadi jika di dalam controller yang kita buat terjadi error yang tidak di handle maka secara otomatis akan di handle oleh middleware di atas.
+
+Dengan cara di atas juga kita bisa dengan pede melakukan throw error dari dalam controller karena sudah ada yang akan menghandle seperti kode berikut:
+
+```typescript
+import { Controller, HttpStatusError, json } from "kamboja"
+
+export namespace PartnerShip {
+    export class UserController extends Controller {
+        async detail(id:string){
+            let user = User.findById(id)
+            if(!user) throw new HttpStatusError(404, "Requested user not found")
+            return json(user)
+        }
+    }
+}
+```
+
+Kode di atas kita melakukan throw `HttpStatusError` jika user yang di minta tidak ada, error di atas akan secara otomatis di ubah menjadi response dengan status 404 oleh middleware  `ErrorHandler` yang kita buat sebelumnya. 
+
 
 ## Fleksibel dan Unopinonated
 
@@ -120,7 +140,7 @@ it("Should return user properly", async () => {
 })
 ```
 
-Kode test tersebut sangat sederhana dan berjalan dengan benar. Tapi masalah akan datang saat anda memiliki jenis test seperti diatas dengan jumlah ribuan, 
+Unit testing seperti di atas sangat lazim di temukan kalau anda memakai Express atau Koa, 
 
 
 
