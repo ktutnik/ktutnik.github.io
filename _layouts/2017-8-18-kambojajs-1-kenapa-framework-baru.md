@@ -16,9 +16,7 @@ Sebelumnya saya sangat aware dengan framework lain yang lebih modern seperti [Ko
 ## KambojaJS
 [KambojaJS](http://kambojajs.com) lahir dari masalah-masalah tersebut diatas, tujuannya untuk memberikan "pakaian" yang modern untuk lingkungan terbaru dari JavaScript/NodeJS untuk mendukung syntax yang modern lebih simpel dan elegan. 
 
-Untuk anda yang belum pernah mendengar apa itu KambojaJS, KambojaJS adalah Server Side MVC framework untuk NodeJS. KambojaJS memakai Express untuk core functionalities nya, API application nya dibikin mirip seperti Express untuk mempersingkat learning curve untuk programmer yang sudah terbiasa memakai Express.
-
-Tulisan ini bersifat subjective dari kaca mata saya pribadi, tujuannya untuk menunjukkan masalah-masalah yang saya hadapi saat memakai Express (dan beberapa framework lain yang sengaja saya tidak sebutkan) dan bagaimana saya menuangkan pemecahan masalah tersebut di KambojaJS.
+Tulisan ini mungkin akan bersifat subjective dari kaca mata saya pribadi, tujuannya untuk menunjukkan masalah-masalah yang saya hadapi saat memakai Express (dan beberapa framework lain yang sengaja saya tidak sebutkan) dan bagaimana saya menuangkan pemecahan masalah tersebut di KambojaJS.
 
 ## TypeScript
 Sampai saat ini KambojaJS mengharuskan anda untuk memakai TypeScript, artinya anda belum bisa memakai JavaScript murni untuk melakukan development dengan KambojaJS. Hal ini terjadi karena KambojaJS menggunakan decorator untuk melakukan konfigurasi untuk proses development. 
@@ -26,7 +24,7 @@ Sampai saat ini KambojaJS mengharuskan anda untuk memakai TypeScript, artinya an
 Decorator adalah [future feature](https://tc39.github.io/proposal-decorators/) dari JavaScript tapi belum ditentukan waktu release nya. Mungkin saat decorator sudah sepenunya di dukung oleh JavaScript, KambojaJS bisa memberikan kebabasan dalam menggunakan JavaScript Murni atau TypeScript.
 
 ## Route yang di Generate Otomatis
-Fitur utama dari KambojaJS adalah kemampuan KambojaJS untuk melakukan generate route secara otomatis dari controller seperti layaknya framework MVC di bahasa pemrogramman lain. Yang mana hal tersebut jarang di temukan di framework yang berbasis JavaScript.
+Kita mulai dari fitur utama dari KambojaJS yaitu kemampuan KambojaJS untuk melakukan generate route secara otomatis dari controller seperti layaknya framework MVC di bahasa pemrogramman lain. Yang mana hal tersebut jarang (mungkin belum ada) di temukan di framework yang berbasis JavaScript.
 
 Kalau anda suka melakukan meta programming, anda mungkin akan merasakan keterbatasan fasilitas RTTI (Run Time Type Information) di JavaScript. Hal ini lah yang membuat hampir semua MVC framework yang ada di NodeJS tidak bisa meng-generate route dari formasi controller dan action, tapi diperlukan konfigurasi tambahan untuk menghubungkan antara route dan controller. KambojaJS bisa melakuakan hal tersebut dengan mudah dan tanpa melakukan konfigurasi tambahan, contohnya seperti potongan kode TypeScript berikut:
 
@@ -84,6 +82,11 @@ export class RequestTime extends Middleware {
         return result
     }
 }
+
+//cara memakainya (di file terpisah):
+const app = new KambojaApplication(__dirname)
+    .use(new RequestTime()) 
+    .init();
 ```
 
 > Sebagian programmer mungkin lebih suka dengan callback-style middlewarenya express karena simple dan tidak perlu membuat class. Sebenarnya memakai class mempunyai keunggulan untuk skala yang lebih besar seperti bisa dipakai untuk [Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection). Untuk kedepannya KambojaJS [akan segera mendukung](https://github.com/kambojajs/kamboja/issues/115) callback-style middleware dan tetap mendukung `async/await` secara out of the box.
@@ -103,11 +106,6 @@ export class GlobalErrorHandler extends Middleware {
         }
     }
 }
-
-//cara memakainya (di file terpisah):
-const app = new KambojaApplication(__dirname)
-    .use(new GlobalErrorHandler()) //daftarkan global error handler
-    .init();
 ```
 
 Kode di atas sangat jelas, kita melakukan try catch untuk semua eksekusi controller yang bermasalah. Jadi jika di dalam controller yang kita buat terjadi error yang tidak di handle maka secara otomatis akan di handle oleh middleware di atas.
@@ -133,6 +131,7 @@ Kode di atas kita melakukan throw `HttpStatusError` jika user yang di minta tida
 ## Fleksibel 
 Salah satu hal yang saya suka dari unopinonated framework seperti Express Koa Asp.net MVC adalah fleksibelitas nya, Hanya ada sedikit aturan baku yang harus di ikuti sisanya anda bisa bebas berkreasi dan meng-kolaborasikannya dengan library lain.
 
+Konsep ini juga saya tuangkan
 
 
 

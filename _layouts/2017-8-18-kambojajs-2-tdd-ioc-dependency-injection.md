@@ -9,18 +9,21 @@ tags:
 cSpell:disable
 -->
 
-
 ## TDD Nowadays
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">If you don’t have tests, then nothing fails when you change stuff. <a href="https://t.co/z97bfQfxry">pic.twitter.com/z97bfQfxry</a></p>&mdash; David Fowler (@davidfowl) <a href="https://twitter.com/davidfowl/status/847850949364260864">March 31, 2017</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">nope, they probably just hired an army of testers</p>&mdash; David Fowler (@davidfowl) <a href="https://twitter.com/davidfowl/status/847953714191126528">March 31, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 ## Waktu Eksekusi
 Hal yang tidak kalah pentingnya dalam membuat unit testing adalah memastikan waktu eksekusi test case yang cepat. Test case yang cepat berpengaruh terhadap produktifitas pengerjaan aplikasi dan yang terpenting adalah stabilitas testing itu sendiri. Saya sangat berpengalaman dengan test case yang berjumlah lebih dari 500 test case dengan waktu eksekusi lama yang kadang-kadang test berjalan lancar di local tapi gagal setelah di push ke server CI. Sering juga ketemu test case yang gagal tanpa sebab dan berjalan lancar setelah server CI di restart beberapa kali.
 
 Dari pengalaman-pengalaman tersebut satu hal yang paling saya garis bawahi dalam melakukan unit testing adalah mengurangi testing yang terkoneksi dengan IO (database, network, file dsb) karena waktu eksekusi paling banyak tersita saat melakukan akses ke IO dan berpengaruh terhadap stabilitas testing secara keseluruhan.
 
+## MVC
 Salah satu keunggulan MVC adalah kita bisa melakukan separation concern dan dependency injection, jadi prinsipnya kita bisa memisahkan kode yang terkoneksi dengan IO dan menjadikannya sebuah komponen yang reusable, pada saat testing komponen tersebut akan sangat mudah di ganti dengan mock atau stub. Dengan trik ini jumlah unit testing yang terkoneksi dengan IO bisa di isolasi di bagian yang diperlukan saja dan bisa di buat minimum karena bersifat reusable. Misalnya kita mempunyai controller sebagai berikut:
 
 ```typescript
@@ -74,6 +77,6 @@ it("Should return user detail properly", () => {
 
 Ada beberapa hal penting yang bisa dilihat dari unit testing di atas:
 
-* Unit testing controller bisa terisolasi, artinya tanpa harus melakukan integration testing.
+* Unit testing untuk controller bisa terisolasi, tanpa harus mengikutkan komponen lain dalam aplikasi.
 * Controller bisa di test tanpa harus terkoneksi dengan IO yang membuat waktu eksekusi menjadi cepat.
 
